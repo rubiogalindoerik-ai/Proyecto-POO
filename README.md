@@ -233,13 +233,15 @@ import java.util.Scanner;
 import java.util.Date;
 import java.util.ArrayList;
 
+// Selccion de constantes fijas para el estado del prestamos
 enum LoanStatus {
   ACTIVE,
   RETORNED
 }
 
+// clase del libro
 class Book {
-  private static int counter = 1;
+  private static int counter = 1; // contador para el ID
   private int idBook;
   private String title;
   private String author;
@@ -256,7 +258,7 @@ class Book {
     this.availableCopys = totalCopy;
   }
 
-  public boolean lend() {
+  public boolean lend() { // Metodo para prestar el libro
     if (availableCopys > 0) {
       availableCopys--;
       return true;
@@ -264,26 +266,27 @@ class Book {
     return false;
   }
 
-  public void retrn() {
+  public void retrn() { // Metodo para regresar el libro
     if (availableCopys < totalCopy) {
       availableCopys++;
     }
   }
 
-  public boolean available() {
+  public boolean available() { // Metodo para verificar la disponibilidad de copias
     return availableCopys > 0;
   }
 
-  public int getIdBook() {
+  public int getIdBook() { // Metodo de busqueda del libro
     return idBook;
   }
 
-  public String info() {
+  public String info() { // Metodo para expulsar la informacion del libro
     return "ID: " + idBook + " | Titulo: " + title + " | Autor: " + author + " | ISBN: " + isbn + " | Total: "
         + totalCopy + " | Disponibles: " + availableCopys;
   }
 }
 
+// Clase para el usaurio
 class User {
   private static int counter = 1;
   private int idUser;
@@ -298,21 +301,21 @@ class User {
     this.activeLoans = 0;
   }
 
-  public boolean canLoan() {
+  public boolean canLoan() { // Metodo para verificar si puede solicitar un libro
     return activeLoans < 2;
   }
 
-  public void incrementLoans() {
+  public void incrementLoans() { // Metodo para incremetar los prestamos
     activeLoans++;
   }
 
-  public void decreaseLoans() {
+  public void decreaseLoans() { // Metodo para disminuir los prestamos
     if (activeLoans > 0) {
       activeLoans--;
     }
   }
 
-  public int getIdUser() {
+  public int getIdUser() { // Metodo de buqueda de usuario
     return idUser;
   }
 
@@ -338,7 +341,7 @@ class Loan {
     this.status = LoanStatus.ACTIVE;
   }
 
-  public void closeLoan() {
+  public void closeLoan() { // Metodo para terminar el prestamo
     if (status == LoanStatus.ACTIVE) {
       status = LoanStatus.RETORNED;
       loanRetorned = new Date();
@@ -347,14 +350,15 @@ class Loan {
     }
   }
 
-  public boolean onActive() {
+  public boolean onActive() { // Metodo para activar el prestamo
     return status == LoanStatus.ACTIVE;
   }
 
-  public int getIdLoan() {
+  public int getIdLoan() { // Metodo de busqueda de prestamo
     return idLoan;
   }
 
+  // getters para traer el libro y el usuario
   public Book getbook() {
     return book;
   }
@@ -369,20 +373,23 @@ class Loan {
   }
 }
 
+// Clase de la libreria
 class Library {
+  // Listas para guardar los libros, usuarios y prestamos
   private ArrayList<Book> books = new ArrayList<>();
   private ArrayList<User> users = new ArrayList<>();
   private ArrayList<Loan> loans = new ArrayList<>();
 
-  public void registerBook(Book book) {
+  public void registerBook(Book book) { // Metodo para agregar libros a la lista
     books.add(book);
   }
 
-  public void registerUser(User user) {
+  public void registerUser(User user) { // Metodo para agregar usuarios a la lista
     users.add(user);
   }
 
-  public boolean loanBook(int idBook, int idUser) {
+  public boolean loanBook(int idBook, int idUser) { // Metodo para prestar libros
+
     Book book = findBook(idBook);
     User user = findUser(idUser);
 
@@ -405,13 +412,13 @@ class Library {
     user.incrementLoans();
 
     Loan newt = new Loan(book, user);
-    loans.add(newt);
+    loans.add(newt); // Metodo para agregar prestamo a la lista
 
     System.out.println("Prestamo realizado correctamente");
     return true;
   }
 
-  public void returnBook(int idLoan) {
+  public void returnBook(int idLoan) { // Metodo para regresar el libro
     for (Loan l : loans) {
       if (l.getIdLoan() == idLoan && l.onActive()) {
         l.closeLoan();
@@ -422,7 +429,7 @@ class Library {
     System.out.println("Prestamo no encontrado");
   }
 
-  public void generateReport() {
+  public void generateReport() { // Metodo para generacion de reporte
     System.out.println("--- Libros ---");
     if (books.isEmpty()) {
       System.out.println("No hay libros registrados");
@@ -448,14 +455,14 @@ class Library {
     }
   }
 
-  private Book findBook(int id) {
+  private Book findBook(int id) { // Metodo para encontrar el libro
     for (Book b : books)
       if (b.getIdBook() == id)
         return b;
     return null;
   }
 
-  private User findUser(int id) {
+  private User findUser(int id) { // Metodo para encontrar el usuario
     for (User u : users)
       if (u.getIdUser() == id)
         return u;
@@ -463,6 +470,7 @@ class Library {
   }
 }
 
+// Clase principal
 public class finalproyect {
   public static void main(String[] args) {
     Scanner sc = new Scanner(System.in);
@@ -557,10 +565,16 @@ public class finalproyect {
 
 ---
 
-**Ejemplo de salida**
+## Ejemplo de salida
 
 ![ejemplo de salida](img/Imagen%20pegada.png)
 
 ![ejemplo de salida](img/Imagen%20pegada%20(2).png)
 
 ![ejemplo de salida](img/Imagen%20pegada%20(3).png)
+
+---
+
+## conclusión personal
+
+Durante la creacion del codigo tuve problemas al inicio con el estado del prestamo y lo solucione con un enum, tambien en un principio solicitaba que el ID se ingresara de forma manual pero facilitarlo para el usuario automatize con un contador tambien tuve el dilema de donde implementar la herencia, polimorfismo o etc pero con la cantidad de clases que cuenta el programa se justifica su no uso. Para el final tuve problemas con el repositorio y archivos duplicados entre ramas, logre resolverlo subiendo un commit con los archivos borrados y logre el merge entre las ramas del avance del proyecto y la del proyecto para hacerlo de una manera mas limpia al igual que arreglar algunas partes de mi markdown siento que puedo mejorar en el area de uso del repositorio y la implementación de los pilares de programacion orientada a objetos
