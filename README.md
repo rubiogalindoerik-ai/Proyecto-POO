@@ -559,8 +559,8 @@ public class finalproyect {
 
 **Ejemplo de salida**
 
-![ejemplo de salida]('Imagen pegada.png')
+![ejemplo de salida](img/Imagen%20pegada.png)
 
-![ejemplo de salida]('Imagen pegada (2).png')
+![ejemplo de salida](img/Imagen%20pegada%20(2).png)
 
-![ejemplo de salida]('Imagen pegada (3).png')
+![ejemplo de salida](img/Imagen%20pegada%20(3).png)
