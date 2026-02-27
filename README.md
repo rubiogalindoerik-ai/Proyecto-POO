@@ -1,4 +1,3 @@
-
 # Avance del Proyecto
 
 ## Instrucciones
